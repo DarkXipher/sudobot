@@ -57,7 +57,7 @@ client.on('message', async message => {
         m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
     }
 
-    if command === "say") {
+    if(command === "say") {
         //makes the bot say something and delete the message. As an exmapke, its open to anyone to use
         // To get the "message" itself we join the args back into a string with spaces.
         const sayMessage = args.join(" ");
@@ -128,6 +128,28 @@ client.on('message', async message => {
         //So we get our message, and delete them. Simple enough, right?
         const fetched = await message.channel.fetchMessages({limit : deleteCount});
         message.channel.bulkDelete(fetched).catch(error => message.reply(` Couldn't delete message because of : ${error}`));
+    }
+
+    if(command === "balance") {
+        //This command will retreive a user's economical value, and display it
+
+        //some considerations:
+        //This may want to be a private message, to allow us to implement a "steal" feature.
+
+        //The balance may not be completely represented in currency, as objects and other items may be factored in
+
+        //Because of the different objects, we need to specifically declare what these objects are used for, i.e. descriptions
+
+        //A way to initiate usage of these objects, or a way to declare that the owner would like to expend a resource
+
+        // A way to integrate with a server queue to notify what position an object is in being processed or how soon it will be.
+    }
+
+    if(command === "invoke-item") {
+        //This command will initiate usage of an item and put it into the server queue. From there an admin can update status or reject/approve as needed.
+        // This should keep track of the status and display it appropriately, as in the balance page.
+
+        
     }
 
 });
