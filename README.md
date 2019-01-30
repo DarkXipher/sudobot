@@ -1,3 +1,3 @@
 # sudodrew
 
-A bot
+Sudobot : The bot.
