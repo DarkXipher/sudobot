@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: replicationcontroller
+metadata:
+  name: nginxApp
+
+spec:
+  replicas: 5
+  selector:
+    app: nginxApp
+  templates:
+    metadata:
+      labels:
+        app: nginxApp
+    spec:    
+      containers:
+        - name: alpine
+          image: gliderlabs/alpine:3.4
+          ports:
+            - containerPort: 8081
