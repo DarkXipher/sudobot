@@ -1,0 +1,33 @@
+{
+    "name": "sudobot",
+    "version": "0.0.1",
+    "main": "src/index.js",
+    "author": "DarkXipher (https://github.com/DarkXipher)",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/DarkXipher/sudobot"
+    },
+    "bugs": {
+      "url": "https://github.com/DarkXipher/sudobot/issues"
+    },
+    "keywords": [
+      "discord",
+      "bot",
+      "commands"
+    ],
+    "license": "GPL-3.0",
+    "scripts": {
+      "prestart": "yarn install",
+      "start": "node src/index.js"
+    },
+    "dependencies": {
+      "bluebird": "^3.5.1",
+      "discord.js": "discordjs/discord.js",
+      "ejs": "^2.6.1",
+      "express": "^4.16.3",
+      "express-session": "^1.15.6",
+      "moment": "^2.22.2",
+      "request": "^2.88.0",
+      "sqlite": "^3.0.0"
+    }
+  }

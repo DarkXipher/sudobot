@@ -1,18 +1,20 @@
 version: "3.2"
 services:
-  node:
+  #angular-client:
+  #express-server:
+  node-backend:
     build: './node/'
-    command: npm run dev
     networks:
       - backend
     volumes:
-      - .:/home/node/app/
+      - ./node-backend/src/:/home/node/app/
       - /home/node/node_modules
     ports:
-      - "3000:3000"
+      - "5060:5060"
     depends_on:
       - postgres
     environment:
+      NODE_ENV: production
       DATABASE_URL: postgres://todoapp@postgres/todos
   postgres:
     image: postgres:latest
