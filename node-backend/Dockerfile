@@ -25,6 +25,9 @@ RUN npm install --loglevel=warn && npm install pm2 -g
 # Copy code needed to run the app
 COPY src $APP/src
 
+# Copy secrets
+COPY config.json $APP/
+
 # expose the port the app runs in
 EXPOSE 5060
 
