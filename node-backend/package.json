@@ -23,6 +23,7 @@
     "dependencies": {
       "bluebird": "^3.5.1",
       "discord.js": "discordjs/discord.js",
+      "discord.js-commando": "discordjs/Commando",
       "ejs": "^2.6.1",
       "express": "^4.16.3",
       "express-session": "^1.15.6",
