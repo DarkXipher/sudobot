@@ -2,9 +2,14 @@
 const { CommandoClient } = require('discord.js-commando');
 const path = require('path');
 
+//Here we load the configurations
+//contains token
+//contains prefix
+const config = require("../config.json");
+
 //This is the client
 const client = new CommandoClient({
-    commandPrefix: '?',
+    commandPrefix: config.prefix,
     owner: ''
 });
 
@@ -25,10 +30,7 @@ client.registry
 
 
 
-//Here we load the configurations
-//contains token
-//contains prefix
-const config = require("./config.json");
+
 
 //let us know when the bot is ready.
 client.once('ready', () => {
