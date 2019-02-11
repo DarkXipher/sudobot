@@ -32,4 +32,4 @@ COPY config.json $APP/
 EXPOSE 5060
 
 # serve the app
-CMD [ "pm2-runtime", "src/testapp.js" ]
+CMD [ "pm2-runtime", "src/index.js" ]
