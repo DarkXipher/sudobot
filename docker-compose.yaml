@@ -14,7 +14,10 @@ services:
       - postgres
     environment:
       NODE_ENV: ${ENVIRONMENT}
-      DATABASE_URL: postgres://${POSTGRES_USER}@postgres/{POSTGRES_DB}
+      POSTGRES_URL: postgres://${POSTGRES_USER}@${POSTGRES_HOST}/{POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      BOT_PREFIX: ${BOT_PREFIX}
+      BOT_TOKEN: ${BOT_TOKEN}
   postgres:
     image: postgres:latest
     restart: always
