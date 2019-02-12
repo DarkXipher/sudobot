@@ -6,23 +6,28 @@ services:
     build: './node/'
     networks:
       - backend
-    volumes:
-      - ./node-backend/src/:/home/node/app/
-      - /home/node/node_modules
+    #volumes:
+    #  - ./node-backend/src/:/home/node/app/
     ports:
       - "5060:5060"
     depends_on:
       - postgres
     environment:
-      NODE_ENV: production
-      DATABASE_URL: postgres://todoapp@postgres/todos
+      NODE_ENV: ${ENVIRONMENT}
+      DATABASE_URL: postgres://${POSTGRES_USER}@postgres/{POSTGRES_DB}
   postgres:
     image: postgres:latest
+    restart: always
     networks:
       - backend
     environment:
-      - POSTGRES_DB=todos
-      - POSTGRES_USER=todoapp
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - $HOME/postgresql/data:/var/lib/postgresql/data
 networks:
   frontend:
   backend:

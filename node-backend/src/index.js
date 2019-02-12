@@ -36,7 +36,7 @@ client.registry
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
     console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
-    client.user.setActivity(`Serving ${client.guilds.size} servers with Commando`);
+    client.user.setActivity(`for ${config.prefix}.`, {type : 'WATCHING'} );
 });
 
 // output errors to console

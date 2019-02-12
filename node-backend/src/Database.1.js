@@ -1,27 +1,12 @@
-
-const { Pool } = require('pg');
+const sqlite = require('sqlite');
 const Promise = require('bluebird');
 const path = require('path');
-const dotenv = require('dotenv');
-
-dotenv.config();
-
-const connString = process.env.DATABASE_URL || 'postgres://localhost:5432/todo';
-
-
 var fs = require('fs');
 
-
 class Database {
-    constructor() {
-        this.db = new Pool({
-            connectionString: connString
-        });
-
-        this.db.on('error', (err, client) => {
-            console.error('Unexpected error on idle client', err);
-            process.exit(-1);
-        });
+    constructor(dbName) {
+        this.path = path.join(__dirname.slice(0, -3), 'data/' + dbName + '.sqlite3');
+        this.db;
     }
 
     getDB() {
@@ -31,7 +16,7 @@ class Database {
     loadSettings(table) {
         return new Promise(async (resolve, reject) => {
             try {
-                let result = await this.db.get('SELECT * FROM ' + table + ' WHERE id=1');
+                let result =  await this.db.get('SELECT * FROM ' + table + ' WHERE id=1');
                 resolve(result);
             } catch (err) {
                 reject(err);
@@ -68,11 +53,11 @@ class Database {
                 if (!fs.existsSync(dataPath)) {
                     fs.mkdirSync(dataPath);
                 }
-
+                
                 const dbPromise = sqlite.open(path, { Promise });
                 let db = await dbPromise;
                 resolve(db);
-            } catch (error) {
+            } catch(error) {
                 reject(error);
             }
         });
@@ -80,7 +65,7 @@ class Database {
 
     init() {
         return new Promise(async (resolve, reject) => {
-            this.db.connect().then(db => {
+            this.openDB(this.path).then(db => {
                 this.db = db;
                 this.db.run('CREATE TABLE IF NOT EXISTS general (id integer primary key asc, username text, password text)');
                 this.db.run('CREATE TABLE IF NOT EXISTS bot (id integer primary key asc, token text, ownerid text, commandprefix text, deletecommandmessages text, unknowncommandresponse text)');
