@@ -5,11 +5,13 @@ const path = require('path');
 //Here we load the configurations
 //contains token
 //contains prefix
-const config = require("../config.json");
+// const config = require("../config.json");
+require('dotenv').config();
+const botPrefix = process.env.BOT_PREFIX;
 
 //This is the client
 const client = new CommandoClient({
-    commandPrefix: config.prefix,
+    commandPrefix: botPrefix,
     owner: ''
 });
 
@@ -36,7 +38,7 @@ client.registry
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
     console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
-    client.user.setActivity(`for ${config.prefix}.`, {type : 'WATCHING'} );
+    client.user.setActivity(`for ${botPrefix}.`, {type : 'WATCHING'} );
 });
 
 // output errors to console
@@ -54,7 +56,7 @@ client.on("guildDelete", guild => {
     client.user.setActivity(`Serving ${client.guilds.size} servers`);
 });
 
-client.login(config.token);
+client.login(process.env.BOT_TOKEN);
 
 // client.on('message', async message => {
 //     //this event will run on every single message from any channel or DM

@@ -3,7 +3,7 @@ services:
   #angular-client:
   #express-server:
   node-backend:
-    build: './node/'
+    build: './node-backend/'
     networks:
       - backend
     #volumes:
