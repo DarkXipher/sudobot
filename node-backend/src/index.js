@@ -19,6 +19,10 @@ client.registry
     .registerDefaultTypes()
     .registerGroups([
         ['first', 'First Command Group'],
+        ['ombi', 'Ombi'],
+        ['sonarr', 'Sonarr'],
+        ['radarr', 'Radarr'],
+        ['tautulli', 'Tautulli']
     ])
     .registerDefaultGroups()
     .registerDefaultCommands({
@@ -43,6 +47,10 @@ client.once('ready', () => {
 
 // output errors to console
 client.on('error', console.error);
+
+client.on('commandPrefixChange', guild, prefix => {
+    console.log(`Prefix ${prefix === '' ? 'removed' : `changed to ${prefix || 'the default'}`} ${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.`);
+});
 
 client.on("guildCreate", guild => {
     //this even triggers when a bot joins a server
