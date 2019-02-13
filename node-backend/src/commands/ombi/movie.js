@@ -42,10 +42,13 @@ function requestMovie(ombi, msg, movieMsg, movie) {
 					'Content-Type' : 'application/json',
 					'ApiKey' : ombi.apikey,
 					'ApiAlias' : `${msg.author.username} (${msg.author.id})`,
+					'UserName' : (ombi.username !== "") ? ombi.username : '',
 					'User-Agent': `Mellow/${process.env.npm_package_version}`},
 					url: 'http://' + ombi.host + ((ombi.port) ? ':' + ombi.port : '') + '/api/v1/Request/movie/',
 					body: JSON.stringify({ "theMovieDbId": movie.theMovieDbId })
 				}).then((resolve) => {
+					if (msg.member.roles.some(role => role.name === ombi.requestmovie))
+						msg.member.roles.remove(msg.member.roles.find(role => role.name === ombi.requestmovie)).catch(console.error);
 					return msg.reply(`Requested ${movie.title} in Ombi.`);
 				}).catch((error) => {
 					console.error(error);

@@ -44,10 +44,13 @@ function requestTVShow(ombi, msg, showMsg, show) {
 					'Content-Type' : 'application/json',
 					'ApiKey' : ombi.apikey,
 					'ApiAlias' : `${msg.author.username} (${msg.author.id})`,
+					'UserName' : (ombi.username !== "") ? ombi.username : '',
 					'User-Agent': `Mellow/${process.env.npm_package_version}`},
 					url: 'http://' + ombi.host + ((ombi.port) ? ':' + ombi.port : '') + '/api/v1/Request/tv/',
 					body: JSON.stringify({ "tvDbId": show.id, "requestAll" : true })
 				}).then((resolve) => {
+					if (msg.member.roles.some(role => role.name === ombi.requesttv))
+						msg.member.roles.remove(msg.member.roles.find(role => role.name === ombi.requesttv)).catch(console.error);
 					return msg.reply(`Requested ${show.title} in Ombi.`);
 				}).catch((error) => {
 					console.error(error);
