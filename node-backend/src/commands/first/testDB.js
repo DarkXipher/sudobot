@@ -8,9 +8,9 @@ const connString = process.env.DATABASE_URL || 'postgres://localhost:5432/sudobo
 module.exports = class testDBCommand extends Command {
 	constructor(client) {
 		super(client, {
-			name: 'testDB',
+			name: 'testdb',
 			group: 'first',
-			memberName: 'testDB',
+			memberName: 'testdb',
 			description: 'Helper function to test the DB out',
         });
         
