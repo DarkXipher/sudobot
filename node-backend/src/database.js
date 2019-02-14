@@ -26,7 +26,9 @@ class Database {
             process.exit(-1);
         });
 
-        await this.db.query('CREATE EXTENSION IF NOT EXISTS "pgcrypto"');
+        (async () => {
+            await this.db.query('CREATE EXTENSION IF NOT EXISTS "pgcrypto"');
+        });
     }
 
     getDB() {
