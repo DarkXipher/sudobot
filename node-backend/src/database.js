@@ -41,7 +41,7 @@ class Database {
             try {
                 //this.db.connect( (err, client, done) => { client.query('SELECT * FROM ' + table + ' WHERE id=1' ,var, callback (err, result) => { done(err)})}
                 
-                let result = await this.db.query('SELECT * FROM ' + table + ' WHERE id=1');
+                let result = this.db.query('SELECT * FROM ' + table + ' WHERE id=1');
                 resolve(result);
             } catch (err) {
                 reject(err);
@@ -50,15 +50,15 @@ class Database {
             }
         });
     }
+
     validateAccountPassword(username, passhash) {
         var result = false;
         try{
-            let result = await this.db.query('SELECT passhash, salt FROM user WHERE username like $1', [username]);
+            let result = this.db.query('SELECT passhash, salt FROM user WHERE username like $1', [username]);
             
-            } catch (err) {
-                reject(err);
-            }
-        })
+        } catch (err) {
+            reject(err);
+        }
     }
 
     saveAccount(username, password) {
@@ -72,7 +72,7 @@ class Database {
         }
     }
 
-    saveBotConfig(token, ownerid, commandPrefix, deleteCommandMessages, unknownCommandResponse) {
+    async saveBotConfig(token, ownerid, commandPrefix, deleteCommandMessages, unknownCommandResponse) {
         try {
             // remove current settings
             this.db.query('DELETE FROM botconfig');
@@ -84,7 +84,7 @@ class Database {
         }
     }
     
-    saveServiceConfig(service, host, port, apiKey) {
+    async saveServiceConfig(service, host, port, apiKey) {
         if (service == '' || host == '' || port == '' || apiKey == '') {return;}
 
         if (service == 'ombi' && request.rTV != '' && request.rMovie != '') {
