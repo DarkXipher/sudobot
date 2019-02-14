@@ -25,7 +25,7 @@ module.exports = class testDBCommand extends Command {
         let result = this.db.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';");;
 
 
-		return result.forEach( row => {
+		return result.forEach( function(row) {
             message.say(row);
         });
 	}
