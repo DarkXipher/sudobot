@@ -61,7 +61,7 @@ class Database {
         }
     }
 
-    saveAccount(username, password) {
+    async saveAccount(username, password) {
         try {
             let salt = crypto.randomBytes(16).toString('hex');
             let hash = crypto.pbkdf2Sync(password, salt, iterations, '64', 'sha512');
