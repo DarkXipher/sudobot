@@ -14,7 +14,7 @@ services:
       - postgres
     environment:
       NODE_ENV: ${ENVIRONMENT}
-      POSTGRES_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/{POSTGRES_DB}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/{POSTGRES_DB}
       BOT_PREFIX: ${BOT_PREFIX}
       BOT_TOKEN: ${BOT_TOKEN}
   postgres:
