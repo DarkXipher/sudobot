@@ -22,12 +22,13 @@ module.exports = class testDBCommand extends Command {
 	run(message) {
 		console.log(connString);
 
-        let result = this.db.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';");;
+		let result = this.db.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';")
+		.then( res => {
+			console.log(res);
 
-		console.log(result);
-		
-		return result.forEach( function(row) {
-            message.say(row);
-        });
+			res.forEach(function(row){
+				message.say(row);
+			});
+		});
 	}
 };
