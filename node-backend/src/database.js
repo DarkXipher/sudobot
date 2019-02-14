@@ -48,12 +48,11 @@ class Database {
             }
         });
     }
-    getAccount(username) {
-        return new Promise(async (resolve, reject) => {
-            try{
-
-                let result = await this.db.query('SELECT passhash, salt FROM user WHERE username like $1');
-                resolve(result);
+    validateAccountPassword(username, passhash) {
+        var result = false;
+        try{
+            let result = await this.db.query('SELECT passhash, salt FROM user WHERE username like $1', [username]);
+            
             } catch (err) {
                 reject(err);
             }

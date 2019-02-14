@@ -28,7 +28,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
-      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+      - \"${POSTGRES_PORT}:${POSTGRES_PORT}\"
     volumes:
       - $HOME/postgresql/data:/var/lib/postgresql/data
       - ./install-pgcrypto.sql:/docker-entrypoint-initdb.d/init.sql
