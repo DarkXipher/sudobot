@@ -8,7 +8,7 @@ var crypto = require('crypto');
 dotenv.config();
 
 const connString = process.env.DATABASE_URL || 'postgres://localhost:5432/todo';
-
+const isNotProduction = (process.env.ENVIRONMENT != 'production');
 
 var fs = require('fs');
 
@@ -25,23 +25,19 @@ class Database {
             console.error('Unexpected error on idle client', err);
             process.exit(-1);
         });
-
-        (async () => {
-            await this.db.query('CREATE EXTENSION IF NOT EXISTS "pgcrypto"');
-        });
     }
 
     getDB() {
         return this.db;
     }
 
-    loadSettings(table) {
+    loadSettings() {
         return new Promise(async (resolve, reject) => {
             // const dbClient = await this.db.connect();
             try {
                 //this.db.connect( (err, client, done) => { client.query('SELECT * FROM ' + table + ' WHERE id=1' ,var, callback (err, result) => { done(err)})}
                 
-                let result = this.db.query('SELECT * FROM ' + table + ' WHERE id=1');
+                let result = this.db.query('SELECT * FROM botconfig WHERE id=1');
                 resolve(result);
             } catch (err) {
                 reject(err);
@@ -51,11 +47,23 @@ class Database {
         });
     }
 
-    validateAccountPassword(username, passhash) {
-        var result = false;
+    validateAccountPassword(username, pass) {
+        //var result = false;
         try{
-            let result = this.db.query('SELECT passhash, salt FROM user WHERE username like $1', [username]);
-            
+            let result = this.db.query('SELECT passhash, salt FROM user WHERE username like $1', [username])
+            .then(res => {
+                let passhash = res[0].passhash;
+                let salt = res[0].salt;
+
+                let newpasshash = crypto.pbkdf2Sync(pass, salt, iterations, '64', 'sha512');
+
+                if(isNotProduction) {
+                    console.log("validating account:" + username);
+                }
+
+                return (passhash == newpasshash) ? true : false;
+                
+            });
         } catch (err) {
             reject(err);
         }
@@ -63,9 +71,12 @@ class Database {
 
     async saveAccount(username, password) {
         try {
+            if(isNotProduction) {
+                console.log("saving Account");
+            }
             let salt = crypto.randomBytes(16).toString('hex');
             let hash = crypto.pbkdf2Sync(password, salt, iterations, '64', 'sha512');
-            let result = await this.db.query('INSERT INTO user (username, passhash, salt) VALUES($1, $2, $3)', [username, hash, salt]);
+            let result = await this.db.query('INSERT INTO users (username, passhash, salt) VALUES($1, $2, $3) ON CONFLICT (username) DO UPDATE set passhash = $2, salt = $3 WHERE users.username like $1', [username, hash, salt]);
             resolve(result);
         } catch (err) {
             reject(err);
@@ -78,6 +89,10 @@ class Database {
             this.db.query('DELETE FROM botconfig');
             // apply new settings
             let result = await this.db.query('INSERT INTO botconfig (token, ownerid, commandprefix, deletecommandmessages, unknowncommandresponse) VALUES($1, $2, $3, $4, $5)', [token, ownerid, commandPrefix, (deleteCommandMessages) ? 'true' : 'false', (unknownCommandResponse) ? 'true' : 'false']);
+
+            if(isNotProduction) {
+                console.log("savingBotConfig");
+            }
             resolve(result);
         } catch (err) {
             reject(err);
@@ -86,6 +101,10 @@ class Database {
     
     async saveServiceConfig(service, host, port, apiKey) {
         if (service == '' || host == '' || port == '' || apiKey == '') {return;}
+
+        if(isNotProduction) {
+            console.log("saving services configurations");
+        }
 
         if (service == 'ombi' && request.rTV != '' && request.rMovie != '') {
             this.db.query('DELETE FROM ombi');
