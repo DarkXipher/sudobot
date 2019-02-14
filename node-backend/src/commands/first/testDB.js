@@ -26,7 +26,8 @@ module.exports = class testDBCommand extends Command {
 		.then( res => {
 			console.log(res);
 
-			res.forEach(function(row){
+			res.rows.forEach(function(row){
+				console.log(row);
 				message.say(row);
 			});
 		});
