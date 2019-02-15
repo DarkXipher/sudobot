@@ -18,7 +18,7 @@ const client = new CommandoClient({
 client.registry
     .registerDefaultTypes()
     .registerGroups([
-        ['first', 'First Command Group'],
+        ['random', 'Random commands'],
         ['ombi', 'Ombi'],
         ['sonarr', 'Sonarr'],
         ['radarr', 'Radarr'],
