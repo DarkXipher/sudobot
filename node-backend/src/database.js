@@ -31,13 +31,13 @@ class Database {
         return this.db;
     }
 
-    loadSettings() {
+    loadServiceSettings(service) {
         return new Promise(async (resolve, reject) => {
             // const dbClient = await this.db.connect();
             try {
                 //this.db.connect( (err, client, done) => { client.query('SELECT * FROM ' + table + ' WHERE id=1' ,var, callback (err, result) => { done(err)})}
                 
-                let result = this.db.query('SELECT * FROM botconfig WHERE id=1');
+                let result = this.db.query('SELECT * FROM service_config WHERE servicename like $1');
                 resolve(result);
             } catch (err) {
                 reject(err);

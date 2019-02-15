@@ -45,7 +45,7 @@ function requestTVShow(ombi, msg, showMsg, show) {
 					'ApiKey' : ombi.apikey,
 					'ApiAlias' : `${msg.author.username} (${msg.author.id})`,
 					'UserName' : (ombi.username !== "") ? ombi.username : '',
-					'User-Agent': `Mellow/${process.env.npm_package_version}`},
+					'User-Agent': `Sudobot/${process.env.npm_package_version}`},
 					url: 'http://' + ombi.host + ((ombi.port) ? ':' + ombi.port : '') + '/api/v1/Request/tv/',
 					body: JSON.stringify({ "tvDbId": show.id, "requestAll" : true })
 				}).then((resolve) => {
@@ -91,7 +91,7 @@ module.exports = class searchTVCommand extends commando.Command {
 		}
 
 		// search for tv shows through ombi API
-		this.client.webDB.loadSettings('ombi').then((ombi) => {
+		this.client.webDB.loadServiceSettings('ombi').then((ombi) => {
 			get({
 				headers: {'accept' : 'application/json',
 				'ApiKey' : ombi.apikey,

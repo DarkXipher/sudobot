@@ -89,11 +89,11 @@ module.exports = class searchMovieCommand extends commando.Command {
 		}
 
 		// search for movies through ombi API
-		this.client.webDB.loadSettings('ombi').then((ombi) => {
+		this.client.webDB.loadServiceSettings('ombi').then((ombi) => {
 			get({
 				headers: {'accept' : 'application/json',
 				'ApiKey' : ombi.apikey,
-				'User-Agent': `Mellow/${process.env.npm_package_version}`},
+				'User-Agent': `Sudobot/${process.env.npm_package_version}`},
 				url:     'http://' + ombi.host + ((ombi.port) ? ':' + ombi.port : '') + '/api/v1/Search/movie/' + args.name
 			}).then((resolve) => {
 				// parse body into json objects
