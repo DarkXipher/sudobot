@@ -38,10 +38,15 @@ module.exports = class queryCommand extends Command {
 
 		let result = this.db.query(args.sql)
 		.then( res => {
-			console.log(res);
+            console.log(res);
+            
+            if (res.rowCount < 1) {
+                console.log("Command ran with no returned results.")
+                message.say("Command ran with no returned results.");
+            }
 
 			res.rows.forEach(function(row){
-				console.log(row);
+				console.log(JSON.stringify(row));
 				message.say(JSON.stringify(row));
 			});
 		});
