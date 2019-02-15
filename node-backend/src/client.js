@@ -65,6 +65,17 @@ class BotClient extends Commando.Client {
 		};
 	}
 
+	onGuildCreate () {
+    	return () => {//this even triggers when a bot joins a server
+    		console.log(`New guild joined: ${guild.name} (id: ${guild.id}. This guild has ${guild.memberCount} members!`); 
+			client.user.setActivity(`Serving ${client.guilds.size} servers`);
+		};
+	}
+
+	onGuildDelete () {
+
+	}
+
 	onMessage () {
 		return (msg) => {
 			// nothing here yet
@@ -95,6 +106,7 @@ class BotClient extends Commando.Client {
 		this.registry
 			.registerDefaultGroups()
 			.registerGroups([
+				['random', 'Random Commands']
 				['ombi', 'Ombi'],
 				['sonarr', 'Sonarr'],
 				['radarr', 'Radarr'],
