@@ -42,7 +42,7 @@ module.exports = class queryCommand extends Command {
 
 			res.rows.forEach(function(row){
 				console.log(row);
-				message.say(row);
+				message.say(row ? row : "Empty");
 			});
 		});
 	}
