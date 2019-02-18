@@ -15,8 +15,9 @@ class BotClient extends Commando.Client {
 	onReady () {
 		return () => {
 			console.log(`BotClient ready and logged in as ${this.user.tag} (${this.user.id}). Prefix set to ${this.commandPrefix}. Use ${this.commandPrefix}help to view the commands list!`);
+			console.log(`Bot has started, with ${this.users.size} users, in ${this.channels.size} channels of ${this.guilds.size} guilds.`);
 			this.user.setAFK(true);
-			this.user.setActivity('$help', { type: 'PLAYING' });
+			this.user.setActivity(`for ${botPrefix}.`, {type : 'WATCHING'} );
 			this.isReady = true;
 		};
 	}
@@ -95,18 +96,21 @@ class BotClient extends Commando.Client {
 			.on('commandBlocked', this.onCmdBlock())
 			.on('commandStatusChange', this.onCmdStatusChange())
 			.on('groupStatusChange', this.onGroupStatusChange())
+			.on('guildCreate', this.onGuildCreate())
+			.on('guildDelete', this.onGuildDelete())
 			.on('message', this.onMessage());
 
 		// set provider sqlite so we can actually save our config permanently
 		this.setProvider(
-			sqlite.open(path.join(__dirname.slice(0, -3), 'data/BotSettings.sqlite3')).then(db => new Commando.SQLiteProvider(db))
-		).catch(console.error);
+			new Commando.SequelizeProvider(db)
+		);
 
 		// first we register groups and commands
 		this.registry
 			.registerDefaultGroups()
 			.registerGroups([
 				['random', 'Random Commands']
+				['first', 'First Command Group']
 				['ombi', 'Ombi'],
 				['sonarr', 'Sonarr'],
 				['radarr', 'Radarr'],
@@ -123,15 +127,15 @@ class BotClient extends Commando.Client {
 
 			// unregister groups if apikey and host is not provided in web database
 			// thanks to the commando framework we have to go the dirty way
-			this.registry.groups.forEach((group) => {
-				this.webDB.loadSettings(group.name).then((result) => {
-					if(!result || (!result.host && !result.apikey)) {
-						group.commands.forEach((command) => {
-							this.registry.unregisterCommand(command);
-						});
-					}
-				}).catch(() => {});
-			});
+			// this.registry.groups.forEach((group) => {
+			// 	this.webDB.loadServiceSettings(group.name).then((result) => {
+			// 		if(!result || (!result.host && !result.apikey)) {
+			// 			group.commands.forEach((command) => {
+			// 				this.registry.unregisterCommand(command);
+			// 			});
+			// 		}
+			// 	}).catch(() => {});
+			// });
 
 		// login client with bot token
 		return this.login(this.token);

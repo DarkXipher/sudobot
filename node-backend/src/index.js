@@ -1,5 +1,6 @@
 //Load up the discord.js library
-const { CommandoClient } = require('discord.js-commando');
+const Database = require('./database.js');
+const BotClient = require('./client.js');
 const path = require('path');
 
 //Here we load the configurations
@@ -10,61 +11,77 @@ require('dotenv').config();
 const botPrefix = process.env.BOT_PREFIX || '>sudo';
 
 //This is the client
-const client = new CommandoClient({
-    commandPrefix: botPrefix,
-    owner: ''
-});
+// const client = new CommandoClient({
+//     commandPrefix: botPrefix,
+//     owner: ''
+// });
 
-client.registry
-    .registerDefaultTypes()
-    .registerGroups([
-        ['random', 'Random commands'],
-        ['ombi', 'Ombi'],
-        ['sonarr', 'Sonarr'],
-        ['radarr', 'Radarr'],
-        ['tautulli', 'Tautulli']
-    ])
-    .registerDefaultGroups()
-    .registerDefaultCommands({
-        'help': true,
-        'prefix': true,
-        'ping': true,
-        'eval_': false,
-        'commandState': true
-    })
-    .registerCommandsIn(path.join(__dirname, 'commands'));
-
-
+// client.registry
+//     .registerDefaultTypes()
+//     .registerGroups([
+//         ['random', 'Random commands'],
+//         ['ombi', 'Ombi'],
+//         ['sonarr', 'Sonarr'],
+//         ['radarr', 'Radarr'],
+//         ['tautulli', 'Tautulli']
+//     ])
+//     .registerDefaultGroups()
+//     .registerDefaultCommands({
+//         'help': true,
+//         'prefix': true,
+//         'ping': true,
+//         'eval_': false,
+//         'commandState': true
+//     })
+//     .registerCommandsIn(path.join(__dirname, 'commands'));
 
 
+
+    let bot = null;
+    let start = function () {
+        let webDB = new Database(1000);
+        webDB.init().then((w) => {
+            setTimeout(() => {
+                webDB.loadSettings('bot').then((bSettings) => {
+                    if (bSettings && bSettings.token) {
+                        bot = new BotClient(webDB, bSettings.token, bSettings.ownerid, bSettings.commandprefix, bSettings.unknowncommandresponse);
+                        bot.init().catch(() => { console.error('Failed initializing DiscordBot. Is your token correct?') });
+                    } else console.log('There is no bot token provided. Please check your configuration!');
+                    // new WebClient(webDB, bot).init();
+                });
+            }, 1000);
+        });
+    }
+    
+    start();
 
 //let us know when the bot is ready.
-client.once('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
-    console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
-    client.user.setActivity(`for ${botPrefix}.`, {type : 'WATCHING'} );
-});
+// client.once('ready', () => {
+//     console.log(`Logged in as ${client.user.tag}!`);
+//     console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
+//     client.user.setActivity(`for ${botPrefix}.`, {type : 'WATCHING'} );
+// });
 
 // output errors to console
-client.on('error', console.error);
+// client.on('error', console.error);
 
-client.on('commandPrefixChange', (guild, prefix) => {
-    console.log(`Prefix ${prefix === '' ? 'removed' : `changed to ${prefix || 'the default'}`} ${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.`);
-});
+// client.on('commandPrefixChange', (guild, prefix) => {
+//     console.log(`Prefix ${prefix === '' ? 'removed' : `changed to ${prefix || 'the default'}`} ${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.`);
+// });
 
-client.on("guildCreate", guild => {
-    //this even triggers when a bot joins a server
-    console.log(`New guild joined: ${guild.name} (id: ${guild.id}. This guild has ${guild.memberCount} members!`); 
-    client.user.setActivity(`Serving ${client.guilds.size} servers`);
-})
+// client.on("guildCreate", guild => {
+//     //this even triggers when a bot joins a server
+//     console.log(`New guild joined: ${guild.name} (id: ${guild.id}. This guild has ${guild.memberCount} members!`); 
+//     client.user.setActivity(`Serving ${client.guilds.size} servers`);
+// })
 
-client.on("guildDelete", guild => {
-    //this event triggers when a bot is removed from a server
-    console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`)
-    client.user.setActivity(`Serving ${client.guilds.size} servers`);
-});
+// client.on("guildDelete", guild => {
+//     //this event triggers when a bot is removed from a server
+//     console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`)
+//     client.user.setActivity(`Serving ${client.guilds.size} servers`);
+// });
 
-client.login(process.env.BOT_TOKEN);
+// client.login(process.env.BOT_TOKEN);
 
 // client.on('message', async message => {
 //     //this event will run on every single message from any channel or DM
