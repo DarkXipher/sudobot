@@ -106,7 +106,7 @@ class BotClient extends Commando.Client {
 
 		// set provider sqlite so we can actually save our config permanently
 		this.setProvider(
-			new Commando.SequelizeProvider(db)
+			new Commando.SequelizeProvider(this.webDB)
 		);
 
 		// first we register groups and commands
