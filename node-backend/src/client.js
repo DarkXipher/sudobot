@@ -74,7 +74,11 @@ class BotClient extends Commando.Client {
 	}
 
 	onGuildDelete () {
-
+		return () => {
+			//this event triggers when a bot is removed from a server
+			console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`)
+			client.user.setActivity(`Serving ${client.guilds.size} servers`);
+		};
 	}
 
 	onMessage () {
