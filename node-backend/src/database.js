@@ -31,6 +31,17 @@ class Database {
         return this.db;
     }
 
+    loadBotSettings() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let result = this.db.query('SELECT * FROM botconfig');
+                resolve(result);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
     loadServiceSettings(service) {
         return new Promise(async (resolve, reject) => {
             // const dbClient = await this.db.connect();

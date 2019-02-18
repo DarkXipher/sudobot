@@ -42,7 +42,7 @@ const botPrefix = process.env.BOT_PREFIX || '>sudo';
         let webDB = new Database(1000);
         webDB.init();
         setTimeout(() => {
-            webDB.loadSettings('bot').then((bSettings) => {
+            webDB.loadBotSettings('bot').then((bSettings) => {
                 if (bSettings && bSettings.token) {
                     bot = new BotClient(webDB, bSettings.token, bSettings.ownerid, bSettings.commandprefix, bSettings.unknowncommandresponse);
                     bot.init().catch(() => { console.error('Failed initializing DiscordBot. Is your token correct?') });
