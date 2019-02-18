@@ -35,7 +35,7 @@ class Database {
         return new Promise(async (resolve, reject) => {
             try {
                 let result = this.db.query('SELECT * FROM botconfig');
-                resolve(result[0]);
+                resolve(result);
             } catch (err) {
                 reject(err);
             }
