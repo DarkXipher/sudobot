@@ -1,4 +1,5 @@
 const Commando = require('discord.js-commando');
+const SequelizeProvider = require('./SequelizeProvider.js');
 
 class BotClient extends Commando.Client {
 	constructor (webDB, token, ownerid, commandprefix, unknowncommandresponse) {
@@ -106,7 +107,7 @@ class BotClient extends Commando.Client {
 
 		// set provider sqlite so we can actually save our config permanently
 		this.setProvider(
-			new Commando.SequelizeProvider(this.webDB)
+			new SequelizeProvider(this.webDB)
 		);
 
 		// first we register groups and commands
