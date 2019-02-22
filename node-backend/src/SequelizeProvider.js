@@ -3,20 +3,20 @@ const { SettingProvider } = require('discord.js-commando');
 class PostgresProvider extends SettingProvider {
 
     /**
-	 * @param {SQLiteDatabase} db - Database for the provider
+	 * @param db - Database for the provider
 	 */
     constructor(db) {
         super();
 
 		/**
 		 * Database that will be used for storing/retrieving settings
-		 * @type {SQLiteDatabase}
+		 * @type 
 		 */
         this.db = db;
 
 		/**
 		 * Client that the provider is for (set once the client is ready, after using {@link CommandoClient#setProvider})
-		 * @name SQLiteProvider#client
+		 * @name 
 		 * @type {CommandoClient}
 		 * @readonly
 		 */
@@ -38,14 +38,14 @@ class PostgresProvider extends SettingProvider {
 
 		/**
 		 * Prepared statement to insert or replace a settings row
-		 * @type {SQLiteStatement}
+		 * @type 
 		 * @private
 		 */
         this.insertOrReplaceStmt = null;
 
 		/**
 		 * Prepared statement to delete an entire settings row
-		 * @type {SQLiteStatement}
+		 * @type 
 		 * @private
 		 */
         this.deleteStmt = null;
@@ -233,4 +233,4 @@ class PostgresProvider extends SettingProvider {
     }
 }
 
-module.exports = SQLiteProvider;
+module.exports = PostgresProvider;
