@@ -114,8 +114,8 @@ class BotClient extends Commando.Client {
 		this.registry
 			.registerDefaultGroups()
 			.registerGroups([
-				['random', 'Random Commands']
-				['first', 'First Command Group']
+				['random', 'Random Commands'],
+				['first', 'First Command Group'],
 				['ombi', 'Ombi'],
 				['sonarr', 'Sonarr'],
 				['radarr', 'Radarr'],
