@@ -126,7 +126,7 @@ class PostgresProvider extends SettingProvider {
         }
 
         settings[key] = val;
-        await this.insertOrReplaceStmt.run(guild !== 'global' ? guild : 0, JSON.stringify(settings));
+        await this.db.query(insertOrReplaceStmt, [(guild !== 'global' ? guild : 0), JSON.stringify(settings)]);
         if (guild === 'global') this.updateOtherShards(key, val);
         return val;
     }
@@ -138,7 +138,7 @@ class PostgresProvider extends SettingProvider {
 
         const val = settings[key];
         settings[key] = undefined;
-        await this.insertOrReplaceStmt.run(guild !== 'global' ? guild : 0, JSON.stringify(settings));
+        await this.db.query(insertOrReplaceStmt, [(guild !== 'global' ? guild : 0), JSON.stringify(settings)]);
         if (guild === 'global') this.updateOtherShards(key, undefined);
         return val;
     }
@@ -147,7 +147,7 @@ class PostgresProvider extends SettingProvider {
         guild = this.constructor.getGuildID(guild);
         if (!this.settings.has(guild)) return;
         this.settings.delete(guild);
-        await this.deleteStmt.run(guild !== 'global' ? guild : 0);
+        await this.db.query(deleteStmt, [(guild !== 'global' ? guild : 0)]);
     }
 
 	/**
