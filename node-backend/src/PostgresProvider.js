@@ -126,7 +126,7 @@ class PostgresProvider extends SettingProvider {
         }
 
         settings[key] = val;
-        await this.db.query(insertOrReplaceStmt, [(guild !== 'global' ? guild : 0), JSON.stringify(settings)]);
+        await this.db.query(this.insertOrReplaceStmt, [(guild !== 'global' ? guild : 0), JSON.stringify(settings)]);
         if (guild === 'global') this.updateOtherShards(key, val);
         return val;
     }
@@ -138,7 +138,7 @@ class PostgresProvider extends SettingProvider {
 
         const val = settings[key];
         settings[key] = undefined;
-        await this.db.query(insertOrReplaceStmt, [(guild !== 'global' ? guild : 0), JSON.stringify(settings)]);
+        await this.db.query(this.insertOrReplaceStmt, [(guild !== 'global' ? guild : 0), JSON.stringify(settings)]);
         if (guild === 'global') this.updateOtherShards(key, undefined);
         return val;
     }
