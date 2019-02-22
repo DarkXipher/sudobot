@@ -19,7 +19,7 @@ class BotClient extends Commando.Client {
 			console.log(`BotClient ready and logged in as ${this.user.tag} (${this.user.id}). Prefix set to ${this.commandPrefix}. Use ${this.commandPrefix}help to view the commands list!`);
 			console.log(`Bot has started, with ${this.users.size} users, in ${this.channels.size} channels of ${this.guilds.size} guilds.`);
 			this.user.setAFK(true);
-			this.user.setActivity(`for ${botPrefix}.`, {type : 'WATCHING'} );
+			this.user.setActivity(`for ${this.commandPrefix}.`, {type : 'WATCHING'} );
 			this.isReady = true;
 		};
 	}
