@@ -62,7 +62,8 @@ class PostgresProvider extends SettingProvider {
             try {
                 settings = JSON.parse(row.settings);
             } catch (err) {
-                client.emit('warn', `SQLiteProvider couldn't parse the settings stored for guild ${row.guild}.`);
+                console.log("PostgresProvider couldn't parse settings for guild");
+                client.emit('warn', `PostgresProvider couldn't parse the settings stored for guild ${row.guild}.`);
                 return;
             }
 
@@ -72,7 +73,7 @@ class PostgresProvider extends SettingProvider {
             this.setupGuild(guild, settings);
         });
 
-        this.insertOrReplaceStmt = 'INSERT OR REPLACE INTO settings VALUES($1, $2)';
+        this.insertOrReplaceStmt = 'INSERT INTO settings VALUES($1, $2) ON CONFLICT DO UPDATE SET guild=$1, settings=$2';
         this.deleteStmt = 'DELETE FROM settings WHERE guild = $1';
 
         // Listen for changes
