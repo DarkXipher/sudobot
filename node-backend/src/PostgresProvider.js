@@ -53,6 +53,7 @@ class PostgresProvider extends SettingProvider {
     
     async init(client) {
         this.client = client;
+        console.log(this.db);
         await this.db.query('CREATE TABLE IF NOT EXISTS settings (guild INTEGER PRIMARY KEY, settings TEXT)');
 
         // Load all settings
