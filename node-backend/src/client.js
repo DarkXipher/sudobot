@@ -1,5 +1,6 @@
 const Commando = require('discord.js-commando');
 const PostgresProvider = require('./PostgresProvider.js');
+const path = require('path');
 
 class BotClient extends Commando.Client {
 	constructor (webDB, token, ownerid, commandprefix, unknowncommandresponse) {
