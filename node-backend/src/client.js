@@ -108,7 +108,7 @@ class BotClient extends Commando.Client {
 
 		// set provider sqlite so we can actually save our config permanently
 		this.setProvider(
-			new PostgresProvider(this.webDB)
+			new PostgresProvider(this.webDB.getDB())
 		);
 
 		// first we register groups and commands
