@@ -56,8 +56,8 @@ class PostgresProvider extends SettingProvider {
         await this.db.query('CREATE TABLE IF NOT EXISTS settings (guild INTEGER PRIMARY KEY, settings TEXT)');
 
         // Load all settings
-        const rows = await this.db.query('SELECT CAST(guild as TEXT) as guild, settings FROM settings');
-        for (const row of rows) {
+        const result = await this.db.query('SELECT CAST(guild as TEXT) as guild, settings FROM settings');
+        result.rows.forEach( row => {
             let settings;
             try {
                 settings = JSON.parse(row.settings);
@@ -70,7 +70,7 @@ class PostgresProvider extends SettingProvider {
             this.settings.set(guild, settings);
             if (guild !== 'global' && !client.guilds.has(row.guild)) continue;
             this.setupGuild(guild, settings);
-        }
+        });
 
         // Prepare statements
         const statements = await Promise.all([

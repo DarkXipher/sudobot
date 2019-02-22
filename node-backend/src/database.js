@@ -1,7 +1,6 @@
 
 const { Pool } = require('pg');
 const Promise = require('bluebird');
-const path = require('path');
 const dotenv = require('dotenv');
 var crypto = require('crypto');
 
