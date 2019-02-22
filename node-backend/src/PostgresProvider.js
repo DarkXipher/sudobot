@@ -53,7 +53,6 @@ class PostgresProvider extends SettingProvider {
     
     async init(client) {
         this.client = client;
-        console.log(this.db);
         await this.db.query('CREATE TABLE IF NOT EXISTS settings (guild INTEGER PRIMARY KEY, settings TEXT)');
 
         // Load all settings
@@ -73,13 +72,8 @@ class PostgresProvider extends SettingProvider {
             this.setupGuild(guild, settings);
         });
 
-        // Prepare statements
-        const statements = await Promise.all([
-            this.db.prepare('INSERT OR REPLACE INTO settings VALUES(?, ?)'),
-            this.db.prepare('DELETE FROM settings WHERE guild = ?')
-        ]);
-        this.insertOrReplaceStmt = statements[0];
-        this.deleteStmt = statements[1];
+        this.insertOrReplaceStmt = 'INSERT OR REPLACE INTO settings VALUES($1, $2)';
+        this.deleteStmt = 'DELETE FROM settings WHERE guild = $1';
 
         // Listen for changes
         this.listeners
