@@ -73,7 +73,7 @@ class PostgresProvider extends SettingProvider {
             this.setupGuild(guild, settings);
         });
 
-        this.insertOrReplaceStmt = 'INSERT INTO settings VALUES($1, $2) ON CONFLICT DO UPDATE SET guild=$1, settings=$2';
+        this.insertOrReplaceStmt = 'INSERT INTO settings VALUES($1, $2) ON CONFLICT (guild) DO UPDATE SET guild=$1, settings=$2';
         this.deleteStmt = 'DELETE FROM settings WHERE guild = $1';
 
         // Listen for changes
