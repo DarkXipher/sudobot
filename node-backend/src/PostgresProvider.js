@@ -63,12 +63,12 @@ class PostgresProvider extends SettingProvider {
                 settings = JSON.parse(row.settings);
             } catch (err) {
                 client.emit('warn', `SQLiteProvider couldn't parse the settings stored for guild ${row.guild}.`);
-                continue;
+                return;
             }
 
             const guild = row.guild !== '0' ? row.guild : 'global';
             this.settings.set(guild, settings);
-            if (guild !== 'global' && !client.guilds.has(row.guild)) continue;
+            if (guild !== 'global' && !client.guilds.has(row.guild)) return;
             this.setupGuild(guild, settings);
         });
 
