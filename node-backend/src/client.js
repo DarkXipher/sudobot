@@ -12,6 +12,7 @@ class BotClient extends Commando.Client {
 		this.webDB = webDB;
 		this.token = token;
 		this.isReady = false;
+		this.commandPrefix = commandprefix
 	}
 
 	onReady () {
