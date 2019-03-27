@@ -49,9 +49,11 @@ class Database {
             try {
                 //this.db.connect( (err, client, done) => { client.query('SELECT * FROM ' + table + ' WHERE id=1' ,var, callback (err, result) => { done(err)})}
 
-                let result = this.db.query('SELECT * FROM service_config WHERE servicename like $1', [service]);
+                let result = this.db.query('SELECT * FROM service_config WHERE servicename like $1', [service]).then( result => {
+                    resolve(result.rows);
+                });
                 
-                resolve(result.rows);
+                // return result.rows;
             } catch (err) {
                 reject(err);
             // } finally {
