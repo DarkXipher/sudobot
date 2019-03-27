@@ -48,11 +48,9 @@ class Database {
             // const dbClient = await this.db.connect();
             try {
                 //this.db.connect( (err, client, done) => { client.query('SELECT * FROM ' + table + ' WHERE id=1' ,var, callback (err, result) => { done(err)})}
-                
-                console.log(service);
 
                 let result = this.db.query('SELECT * FROM service_config WHERE servicename like $1', [service]);
-
+                
                 resolve(result);
             } catch (err) {
                 reject(err);

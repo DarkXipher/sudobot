@@ -90,6 +90,7 @@ module.exports = class searchMovieCommand extends commando.Command {
 
 		// search for movies through ombi API
 		this.client.webDB.loadServiceSettings('ombi').then((ombi) => {
+			console.log(ombi);
 			get({
 				headers: {'accept' : 'application/json',
 				'ApiKey' : ombi.apikey,
