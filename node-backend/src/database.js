@@ -51,7 +51,7 @@ class Database {
 
                 let result = this.db.query('SELECT * FROM service_config WHERE servicename like $1', [service]);
                 
-                resolve(result);
+                resolve(result.rows);
             } catch (err) {
                 reject(err);
             // } finally {
