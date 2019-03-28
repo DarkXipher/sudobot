@@ -95,6 +95,8 @@ module.exports = class searchMovieCommand extends commando.Command {
 			get({
 				headers: {'accept' : 'application/json',
 				'ApiKey' : ombi.apikey,
+				'ApiAlias' : `${msg.author.username} (${msg.author.id})`,
+				'UserName' : (ombi.username !== "") ? ombi.username : '',
 				'User-Agent': `Sudobot/${process.env.npm_package_version}`},
 				url:     'http://' + ombi.host + ((ombi.port) ? ':' + ombi.port : '') + '/api/v1/Search/movie/' + args.name
 			}).then((resolve) => {
