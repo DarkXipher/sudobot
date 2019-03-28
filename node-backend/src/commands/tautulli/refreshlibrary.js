@@ -14,7 +14,7 @@ module.exports = class refreshLibraryCommand extends commando.Command {
     }
     
     run (msg, args) {
-		this.client.webDB.loadSettings('tautulli').then((tautulli) => {
+		this.client.webDB.loadServiceSettings('tautulli').then((tautulli) => {
 			get({
 				headers: {'accept' : 'application/json',
 				'User-Agent': `Mellow/${process.env.npm_package_version}`},
