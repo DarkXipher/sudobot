@@ -87,6 +87,14 @@ class BotClient extends Commando.Client {
 	onMessage () {
 		return (msg) => {
 			// nothing here yet
+			
+			// Lets keep track of who has been talking. We'll need to grab the msg author's ID/tag and store in database.
+
+			//This will only trigger on each message. So hopefully the message has a datetime that we can compare to increase their points by.
+
+			
+
+
 		};
 	}
 
