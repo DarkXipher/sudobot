@@ -13,7 +13,7 @@ module.exports = class chooseCommand extends Command {
 				{
 					'key': 'choice',
 					'prompt': 'query to run',
-					'type': 'array'
+					'type': 'string'
 				}]
         });
 	}
