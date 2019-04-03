@@ -19,6 +19,7 @@ module.exports = class chooseCommand extends Command {
 	}
 
 	run(message, choice) {
+		console.log(choice);
 		var arr = choice.split(/  +/);
         var results = Math.ceil(Math.random() * arr.length);
         results = arr[(results - 1)];
