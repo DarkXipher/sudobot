@@ -7,8 +7,8 @@ const path = require('path');
 //contains token
 //contains prefix
 // const config = require("../config.json");
-require('dotenv').config();
-const botPrefix = process.env.BOT_PREFIX || '>sudo';
+//require('dotenv').config();
+//const botPrefix = process.env.BOT_PREFIX || '>sudo';
 
 //This is the client
 // const client = new CommandoClient({

@@ -125,10 +125,9 @@ class BotClient extends Commando.Client {
 			.registerDefaultGroups()
 			.registerGroups([
 				['random', 'Random Commands'],
-				['first', 'First Command Group'],
+				['Economy', 'Commands relating to Inventory and Economy'],
 				['ombi', 'Ombi'],
-				['sonarr', 'Sonarr'],
-				['radarr', 'Radarr'],
+				['Games', 'Commands relating to interative systems to generate economy'],
 				['tautulli', 'Tautulli']
 			])
 			.registerDefaultTypes()
