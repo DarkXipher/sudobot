@@ -9,16 +9,13 @@ module.exports = class chooseCommand extends Command {
             description: 'The one stop picker for hard choices!',
             clientPermissions: ['ADMINISTRATOR'],
             userPermissions: ['ADMINISTRATOR'],
-            args: [
-				{
-					'key': 'choice',
-					'prompt': 'query to run',
-					'type': 'string'
-				}]
+            
         });
 	}
 
 	run(message, [...choice]) {
+		console.log(choice);
+		var arr = choice.split(" ");
         var results = Math.ceil(Math.random() * choice.length);
         results = choice[(results - 1)];
     
