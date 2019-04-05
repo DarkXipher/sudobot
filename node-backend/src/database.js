@@ -82,6 +82,29 @@ class Database {
         }
     }
 
+    async findUser(userid) {
+        try {
+            let result = this.db.query('SELECT username, currency, last_message_time, inventory FROM users where user_Id = $1', [userid]).then( result => {
+                resolve(result.rows[0]);
+            });
+
+        } catch (err) {
+            console.log(err);
+            reject(err);
+        }
+    }
+
+    async getUserInventory(userId) {
+        try {
+            this.db.query('SELECT i.item_id, i.item_description, inv.quantity FROM users u, items i, inventory inv WHERE u.inventory_id = inv.inventory_id AND inv.item_id = i.item_id AND u.user_id = $1', [userId]).then( result => {
+                resolve(result.rows[0]);
+            });
+        } catch (err) {
+            console.log(err);
+            reject(err);
+        }
+    }
+
     async saveAccount(username, password) {
         try {
             if(isNotProduction) {
