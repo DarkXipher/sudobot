@@ -5,10 +5,10 @@ const { Pool } = require('pg');
 const connString = process.env.DATABASE_URL || 'postgres://localhost:5432/sudobot';
 
 
-module.exports = class testDBCommand extends Command {
+module.exports = class ListTablesCommand extends Command {
 	constructor(client) {
 		super(client, {
-			name: 'testdb',
+			name: 'listtables',
 			group: 'random',
 			memberName: 'testdb',
 			description: 'Helper function to test the DB out',
